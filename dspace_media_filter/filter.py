@@ -1,10 +1,12 @@
 import json
+import os
 import re
 from abc import ABC
 import tempfile
 
 from PyPDF2 import PdfFileReader
 from nltk.tokenize import RegexpTokenizer
+from preview_generator.manager import PreviewManager
 
 
 class MediaFilterRequest(object):
@@ -39,6 +41,9 @@ class TextFilter(MediaFilter, ABC):
         return ' '.join(filter(lambda x: self.expr.match(x), tokens))
 
 
+cache_path = '/tmp/preview_cache'
+
+
 class PDFFilter(TextFilter):
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         text = ''
@@ -59,3 +64,8 @@ class PDFFilter(TextFilter):
             return MediaFilterResponse(result_file_path=result_file.name)
 
 
+class ThumbnailFilter(MediaFilter):
+    manager = PreviewManager(cache_path, create_folder=True)
+
+    def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
+        return MediaFilterResponse(result_file_path=self.manager.get_jpeg_preview(req.abs_file))
