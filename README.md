@@ -17,26 +17,57 @@ A microservice replacement for the DSpace in-built `filter-media` functionality.
 
 ## Installation
 
-Currently, installation is only supported directly from the GIT repository.
+Currently, installation is only supported directly from the GIT repository. So you need to checkout
+the repository somewhere.
 
-### System dependencies
+```shell
+# clone the repo
+git clone git@github.com:flozzone/dspace-media-filter-server.git
+```
 
-#### Debian and derivates
+### Docker container
+
+The easiest way to build the dspace-filter-media-server is to build the container using the Dockerfile
+inside the GIT repository. But you need to copy the files in and out from the container.
+
+```shell
+docker build -t media-filter .
+```
+
+Run the resulting container with:
+
+```shell
+docker run --rm -p 5000:5000 --name media-filter media-filter
+```
+
+And copy files in and out.
+
+```shell
+# copy files into container
+docker cp /tmp/test.pdf media-filter:/tmp
+
+# copy output file (according to the filter response) from container out to the host
+docker cp media-filter:/tmp/tmp2lyp8vem /tmp/out.text
+
+# or directly watch the file
+docker exec -it media-filter cat /tmp/tmp2lyp8vem
+```
+
+### Local setup
+
+#### Dependencies for Debian and derivates
 
 ```shell
 # install Python 3.8 or higher
 sudo apt-get install python3 python3-venv
 
 # for image previews get the following
-sudo apt-get install poppler-utils libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev imagemagick libmagic1 webp
+sudo apt-get install exiftool poppler-utils libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev imagemagick libmagic1 webp
 ```
 
 ### Setup
 
 ```shell
-# download the repo
-git clone git@github.com:flozzone/dspace-media-filter-server.git
-
 # cd into it
 cd dspace-media-filter-server
 
