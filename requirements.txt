@@ -10,3 +10,6 @@ python-pptx==0.6.21
 
 # html text extraction
 bs4==0.0.1
+
+# docx text extraction
+python-docx==0.8.11
