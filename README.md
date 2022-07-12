@@ -67,6 +67,9 @@ curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pdf"}' h
 # To extract text from a PPTX presentation
 curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pptx"}' http://localhost:5000/text/pptx
 
+# To extract text from a HTML file
+curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.html"}' http://localhost:5000/text/html
+
 # To generate a thumbnail image of a PDF
 curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pdf"}' http://localhost:5000/thumbnail
 ```

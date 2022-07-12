@@ -4,6 +4,7 @@ import traceback
 from abc import ABC
 
 from dspace_media_filter.filter import MediaFilterResponse, MediaFilterRequest
+from dspace_media_filter.text_html import HTMLTextFilter
 from dspace_media_filter.text_pdf import PDFFilter
 from dspace_media_filter.text_pptx import PPTTextFilter
 from dspace_media_filter.thumbnail import ThumbnailFilter
@@ -14,6 +15,7 @@ class MediaFilterManager(ABC):
         self.pdf_text_filter = PDFFilter()
         self.thumbnail_filter = ThumbnailFilter()
         self.pptx_text_filter = PPTTextFilter()
+        self.html_text_filter = HTMLTextFilter()
 
     def filter(self, request, media_type, file_type) -> MediaFilterResponse:
         req = MediaFilterRequest(request.get_json())
@@ -28,6 +30,8 @@ class MediaFilterManager(ABC):
                 media_filter = self.pdf_text_filter
             elif file_type == 'pptx':
                 media_filter = self.pptx_text_filter
+            elif file_type == 'html':
+                media_filter = self.html_text_filter
             else:
                 return MediaFilterResponse(error=f"Cannot extract text for filetype {file_type}")
         else:

@@ -1,5 +1,12 @@
 flask==2.1.2
 PyPDF2==2.5.0
 nltk==3.7
+
+# thumbnails
 preview-generator==0.29
+
+# pptx text extraction
 python-pptx==0.6.21
+
+# html text extraction
+bs4==0.0.1
