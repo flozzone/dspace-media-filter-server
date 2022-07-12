@@ -6,8 +6,7 @@ from dspace_media_filter.text import TextFilter
 
 class HTMLTextFilter(TextFilter):
     def filter_text(self, req: MediaFilterRequest) -> str:
-        text = BeautifulSoup(self.read_text_file(req.abs_file)).get_text()
-        return self.clean_text(text)
+        return BeautifulSoup(self.read_text_file(req.abs_file)).get_text()
 
     @staticmethod
     def read_text_file(path: str) -> str:

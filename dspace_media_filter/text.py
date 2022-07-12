@@ -14,7 +14,7 @@ class TextFilter(MediaFilter, ABC):
 
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
 
-        text = self.filter_text(req)
+        text = self.clean_text(self.filter_text(req))
 
         result_file = self.write_text_to_file(text)
 
