@@ -9,6 +9,12 @@ A microservice replacement for the DSpace in-built `filter-media` functionality.
 * Develop and deploy the filter-media server independently of DSpace software
 * Others could make use of this in other applications then DSpace
 
+# Features
+
+* Can extract text from PDF, PPTX, HTML files.
+* Can create thumbnails of various file types (see 
+[supported-mimetypes](https://github.com/algoo/preview-generator/blob/develop/doc/supported_mimetypes.rst) from `preview-generator`)
+
 ## Installation
 
 Currently, installation is only supported directly from the GIT repository.
