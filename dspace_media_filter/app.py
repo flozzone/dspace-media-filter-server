@@ -28,8 +28,8 @@ def text_pdf():
     return filter_response.to_json()
 
 
-@app.route("/thumbnail/pdf", methods=['POST'])
-def thumbnail_pdf():
+@app.route("/thumbnail", methods=['POST'])
+def thumbnail():
     req = MediaFilterRequest(request.get_json())
 
     if not os.path.exists(req.abs_file):
