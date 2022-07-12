@@ -19,7 +19,7 @@ class MediaFilterResponse(object):
     def to_json(self):
         return json.dumps({
             "text": self.text
-        })
+        }, ensure_ascii=False)
 
 
 class MediaFilter(ABC):
