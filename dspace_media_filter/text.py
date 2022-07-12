@@ -16,6 +16,9 @@ class TextFilter(MediaFilter, ABC):
 
         text = self.clean_text(self.filter_text(req))
 
+        if req.return_text:
+            return MediaFilterResponse(text=text)
+
         result_file = self.write_text_to_file(text)
 
         return MediaFilterResponse(result_file_path=result_file)

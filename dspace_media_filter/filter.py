@@ -4,18 +4,21 @@ from abc import ABC
 
 class MediaFilterRequest(object):
     def __init__(self, data):
-        self.abs_file = data['file']
+        self.abs_file = data.get('file')
+        self.return_text = data.get('returnText', False)
 
 
 class MediaFilterResponse(object):
-    def __init__(self, result_file_path=None, error=None):
+    def __init__(self, result_file_path=None, error=None, text=None):
         self.resultFile = result_file_path
         self.error = error
+        self.text = text
 
     def to_json(self):
         return json.dumps({
             "resultFile": self.resultFile,
-            "error": self.error
+            "error": self.error,
+            "text": self.text
         }, ensure_ascii=False)
 
 
