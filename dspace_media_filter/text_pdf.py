@@ -1,13 +1,11 @@
-import tempfile
-
 from PyPDF2 import PdfFileReader
 
-from dspace_media_filter.filter import MediaFilterResponse, MediaFilterRequest
+from dspace_media_filter.filter import MediaFilterRequest
 from dspace_media_filter.text import TextFilter
 
 
 class PDFFilter(TextFilter):
-    def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
+    def filter_text(self, req: MediaFilterRequest) -> str:
         text = ''
 
         # read PDF contents
@@ -19,8 +17,4 @@ class PDFFilter(TextFilter):
                 # extracting text from page
                 text += page.extractText()
 
-        # write filtered contents to file
-        with tempfile.NamedTemporaryFile(mode="w", delete=False) as result_file:
-            result_file.write(self.clean_text(text))
-
-            return MediaFilterResponse(result_file_path=result_file.name)
+        return self.clean_text(text)

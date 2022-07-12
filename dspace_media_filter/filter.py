@@ -22,7 +22,3 @@ class MediaFilterResponse(object):
 class MediaFilter(ABC):
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         raise NotImplementedError("MediaFilter logic not implemented")
-
-
-
-
