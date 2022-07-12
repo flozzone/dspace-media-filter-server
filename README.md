@@ -58,11 +58,14 @@ cd dspace_media_filter
 # and let flask find your app.py, look at the console output for the port
 flask run
 ```
-Download a pdf to `/tmp/test.pdf` and execute the following in another terminal.
+Download the required files to `/tmp` and execute the proper command in another terminal.
 
 ```shell
 # To extract text from a PDF
 curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pdf"}' http://localhost:5000/text/pdf
+
+# To extract text from a PPTX presentation
+curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pptx"}' http://localhost:5000/text/pptx
 
 # To generate a thumbnail image of a PDF
 curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pdf"}' http://localhost:5000/thumbnail
