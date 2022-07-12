@@ -8,7 +8,7 @@ app = Flask(__name__)
 manager = MediaFilterManager()
 
 
-@app.route("/<mediatype>", methods=['POST'])
+@app.route("/<mediatype>", methods=['POST'], defaults={'filetype': None})
 @app.route("/<mediatype>/<filetype>", methods=['POST'])
 def filter_media(mediatype, filetype):
     return manager.filter(request, mediatype, filetype).to_json()
