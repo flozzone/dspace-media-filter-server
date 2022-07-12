@@ -20,3 +20,11 @@ flask run
 
 # look at the console output for the port
 ```
+
+## Using it
+
+Download a pdf to `/tmp/test.pdf` and execute the following in another terminal.
+
+```shell
+curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pdf"}' http://localhost:5000/pdf
+```

@@ -1,31 +1,29 @@
-import io
+import os
+import sys
 
 from flask import Flask
 from flask import request
 
-from dspace_media_filter.filter import MediaFilterRequest, PDFFilter
+from dspace_media_filter.filter import MediaFilterRequest, PDFFilter, MediaFilterResponse
 
 app = Flask(__name__)
 
 
-@app.route("/extract", methods=['POST'])
-def extract():
-    media_request = request.get_json()
-
-    req = MediaFilterRequest(media_request)
-
-    if req.filter_type == 'pdf':
-        with open(req.abs_file, 'rb') as pdfFile:
-            f = PDFFilter()
-        resp = f.filter(pdfFile)
-        return resp.to_json()
-
-    return f"MediaFilter: {media_request}"
+pdf_filter = PDFFilter()
 
 
 @app.route("/pdf", methods=['POST'])
 def pdf():
-    stream = io.BufferedReader(request.stream)
-    f = PDFFilter()
-    resp = f.filter(stream)
-    return resp.to_json()
+    filter_request = request.get_json()
+
+    req = MediaFilterRequest(filter_request)
+
+    if not os.path.exists(req.abs_file):
+        return MediaFilterResponse(error=f"File {req.abs_file} not found").to_json()
+
+    try:
+        filter_response = pdf_filter.filter(req)
+    except:
+        return MediaFilterResponse(error=f"An unexpected error occured {sys.exc_info()[0]}").to_json()
+
+    return filter_response.to_json()

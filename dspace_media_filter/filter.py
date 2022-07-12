@@ -1,6 +1,7 @@
 import json
 import re
 from abc import ABC
+import tempfile
 
 from PyPDF2 import PdfFileReader
 from nltk.tokenize import RegexpTokenizer
@@ -9,21 +10,22 @@ from nltk.tokenize import RegexpTokenizer
 class MediaFilterRequest(object):
     def __init__(self, data):
         self.abs_file = data['file']
-        self.filter_type = data['type']
 
 
 class MediaFilterResponse(object):
-    def __init__(self, text):
-        self.text = text
+    def __init__(self, result_file_path=None, error=None):
+        self.resultFile = result_file_path
+        self.error = error
 
     def to_json(self):
         return json.dumps({
-            "text": self.text
+            "resultFile": self.resultFile,
+            "error": self.error
         }, ensure_ascii=False)
 
 
 class MediaFilter(ABC):
-    def filter(self, req: MediaFilterRequest):
+    def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         raise NotImplementedError("MediaFilter logic not implemented")
 
 
@@ -38,16 +40,22 @@ class TextFilter(MediaFilter, ABC):
 
 
 class PDFFilter(TextFilter):
-
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
+        text = ''
+
+        # read PDF contents
         with open(req.abs_file, 'rb') as pdfFile:
             pdf_reader = PdfFileReader(pdfFile)
-            text = ''
             for i in range(0, pdf_reader.numPages):
                 # creating a page object
                 page = pdf_reader.getPage(i)
                 # extracting text from page
                 text += page.extractText()
-            return MediaFilterResponse(text=self.clean_text(text))
+
+        # write filtered contents to file
+        with tempfile.NamedTemporaryFile(mode="w", delete=False) as result_file:
+            result_file.write(self.clean_text(text))
+
+            return MediaFilterResponse(result_file_path=result_file.name)
 
 
