@@ -4,7 +4,9 @@ import sys
 from flask import Flask
 from flask import request
 
-from dspace_media_filter.filter import MediaFilterRequest, PDFFilter, MediaFilterResponse, ThumbnailFilter
+from dspace_media_filter.filter import MediaFilterRequest, MediaFilterResponse
+from dspace_media_filter.text_pdf import PDFFilter
+from dspace_media_filter.thumbnail import ThumbnailFilter
 
 app = Flask(__name__)
 
