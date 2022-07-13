@@ -1,4 +1,5 @@
 import os
+import subprocess
 import sys
 import traceback
 from abc import ABC
@@ -43,7 +44,16 @@ class MediaFilterManager(ABC):
 
         try:
             return media_filter.filter(req)
+        except subprocess.CalledProcessError as e:
+            traceback.print_exc()
+            sys.stderr.flush()
+            sys.stdout.flush()
+            outp = "Check server logs"
+            if e.output and len(e.output) > 0:
+                outp = e.output
+            return MediaFilterResponse(error=f"A process exited with {e.returncode} while calling "
+                                             f"'{' '.join(e.cmd)}'\n OUTPUT: {outp}\nSTACKTRACE: {sys.exc_info()[0]}")
         except:
             traceback.print_exc()
             sys.stderr.flush()
-            return MediaFilterResponse(error=f"An unexpected error occured {sys.exc_info()}")
+            return MediaFilterResponse(error=f"An unexpected error occured {sys.exc_info()[0]}")
