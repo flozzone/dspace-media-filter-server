@@ -6,10 +6,14 @@ from pptx import Presentation
 from dspace_media_filter.text import TextFilter
 
 
-class PPTTextFilter(TextFilter):
+class FilterModule(TextFilter):
+    @staticmethod
+    def filter_name():
+        return "text_pptx"
+
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         try:
-            return super(PPTTextFilter, self).filter(req)
+            return super(FilterModule, self).filter(req)
         except pptx.exc.PackageNotFoundError as e:
             return MediaFilterResponse(error=f"PPTX extraction could not detect the file as a valid PPTX file")
         except pptx.exc.PythonPptxError as e:

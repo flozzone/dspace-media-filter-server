@@ -1,5 +1,5 @@
 import json
-from abc import ABC
+from abc import ABC, abstractmethod
 
 
 class MediaFilterRequest(object):
@@ -27,5 +27,11 @@ class MediaFilter(ABC):
     def __init__(self, cache_dir=None):
         self.cache_dir = cache_dir
 
+    @staticmethod
+    @abstractmethod
+    def filter_name():
+        raise NotImplementedError("MediaFilter doesn't specify any filter name")
+
+    @abstractmethod
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         raise NotImplementedError("MediaFilter logic not implemented")

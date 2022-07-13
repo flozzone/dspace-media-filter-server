@@ -166,3 +166,18 @@ returns
   "text": "extracted text"
 }
 ```
+
+### Environment variables
+
+`MEDIA_FILTER_CACHE_DIR` specifies the path to a folder which gets used by the filter modules
+to save their result.
+
+`MEDIA_FILTER_ENABLED_MODULES` can be used to specifically enable/disable filter modules. If not
+given all modules will be enabled. If specified given filter-modules separated by comma given by
+their module name (file name without extension) will be enabled, others not.
+This is especially useful if you don't want to load all dependencies and just make use of 
+specifics.
+
+`MEDIA_FILTER_LOG_LEVEL` can be used to control the log level of the underlying logging system.
+Python logging levels are allowed: `NOTSET`, `DEBUG`, `INFO`, `WARNING` (default), `ERROR`,
+`CRITICAL`.

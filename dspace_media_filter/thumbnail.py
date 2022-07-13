@@ -13,7 +13,11 @@ class ThumbnailFilterMediaRequest(MediaFilterRequest):
         self.page = thumbnail_data.get('page', -1)
 
 
-class ThumbnailFilter(MediaFilter):
+class FilterModule(MediaFilter):
+
+    @staticmethod
+    def filter_name():
+        return "thumbnail"
 
     def __init__(self, cache_dir=None):
         super().__init__(cache_dir=cache_dir)
