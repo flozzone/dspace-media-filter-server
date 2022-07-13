@@ -8,6 +8,9 @@ A microservice replacement for the DSpace in-built `filter-media` functionality.
 * Offload DSpace host by creating the possibilities to run this on another host
 * Develop and deploy the filter-media server independently of DSpace software
 * Others could make use of this in other applications then DSpace
+* Python can use system libraries and doesn't have to re-implement it in Java. The drawback
+is that it requires a bunch of system dependencies, but in a container world this is not really
+an issue since everything is pre-installed (See [Dockerfile](Dockerfile))
 
 # Features
 
