@@ -8,7 +8,9 @@ from dspace_media_filter.filter import MediaFilter, MediaFilterRequest, MediaFil
 
 
 class TextFilter(MediaFilter, ABC):
-    def __init__(self):
+    def __init__(self, cache_dir=None):
+        super().__init__(cache_dir=cache_dir)
+
         self.tokenizer = RegexpTokenizer(r'\w+')
         self.expr = re.compile(r"[\w_-]{4,}")
 
@@ -33,6 +35,6 @@ class TextFilter(MediaFilter, ABC):
 
     def write_text_to_file(self, text):
         # write filtered contents to file
-        with tempfile.NamedTemporaryFile(mode="w", delete=False) as result_file:
+        with tempfile.NamedTemporaryFile(mode="w", delete=False, dir=self.cache_dir) as result_file:
             result_file.write(self.clean_text(text))
             return result_file.name

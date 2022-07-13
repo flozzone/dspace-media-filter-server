@@ -23,5 +23,8 @@ class MediaFilterResponse(object):
 
 
 class MediaFilter(ABC):
+    def __init__(self, cache_dir=None):
+        self.cache_dir = cache_dir
+
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         raise NotImplementedError("MediaFilter logic not implemented")

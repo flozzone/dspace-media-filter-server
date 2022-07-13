@@ -40,7 +40,7 @@ Run the resulting container with:
 docker run --rm -p 5000:5000 --name media-filter media-filter
 ```
 
-And copy files in and out.
+And copy files in and out
 
 ```shell
 # copy files into container
@@ -51,6 +51,22 @@ docker cp media-filter:/tmp/tmp2lyp8vem /tmp/out.text
 
 # or directly watch the file
 docker exec -it media-filter cat /tmp/tmp2lyp8vem
+```
+
+Or use a shared local volume to make testing easier
+
+```shell
+# create a folder with your user to share data
+mkdir shared-media-filter-cache
+
+# and start the container with a mounted host volume pointing to the media-filter-cache folder
+docker run --rm -p 5000:5000 -v $(pwd)/shared-media-filter-cache:/tmp/media-filter-cache --name media-filter media-filter
+
+# copy the files to test into the shared folder
+cp /tmp/test.docx shared-media-filter-cache
+
+# and issue a request against localhost:5000
+curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/media-filter-cache/test.docx", "returnText":true}' http://localhost:5001/text/docx
 ```
 
 ### Local setup

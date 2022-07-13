@@ -12,12 +12,12 @@ from dspace_media_filter.thumbnail import ThumbnailFilter
 
 
 class MediaFilterManager(ABC):
-    def __init__(self):
-        self.pdf_text_filter = PDFFilter()
-        self.thumbnail_filter = ThumbnailFilter()
-        self.pptx_text_filter = PPTTextFilter()
-        self.html_text_filter = HTMLTextFilter()
-        self.docx_text_filter = DOCXTextFilter()
+    def __init__(self, main_cache_dir=None):
+        self.pdf_text_filter = PDFFilter(cache_dir=os.path.join(main_cache_dir, "pdf-text"))
+        self.thumbnail_filter = ThumbnailFilter(cache_dir=os.path.join(main_cache_dir, "thumbnails"))
+        self.pptx_text_filter = PPTTextFilter(cache_dir=os.path.join(main_cache_dir, "ppt-text"))
+        self.html_text_filter = HTMLTextFilter(cache_dir=os.path.join(main_cache_dir, "html-text"))
+        self.docx_text_filter = DOCXTextFilter(cache_dir=os.path.join(main_cache_dir, "docx-text"))
 
     def filter(self, request, media_type, file_type) -> MediaFilterResponse:
         req = MediaFilterRequest(request.get_json())

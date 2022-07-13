@@ -1,6 +1,9 @@
 # IDE
 .idea
 
+# filter-media exclusions
+shared-volume
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
