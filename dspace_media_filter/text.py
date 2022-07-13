@@ -34,6 +34,10 @@ class TextFilter(MediaFilter, ABC):
         return ' '.join(filter(lambda x: self.expr.match(x), tokens))
 
     def write_text_to_file(self, text):
+
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
+
         # write filtered contents to file
         with tempfile.NamedTemporaryFile(mode="w", delete=False, dir=self.cache_dir) as result_file:
             result_file.write(self.clean_text(text))
