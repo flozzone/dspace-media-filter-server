@@ -132,3 +132,37 @@ curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.html", "
 # To generate a thumbnail image of a PDF
 curl -X POST -H 'Content-Type: application/json' -d '{"file":"/tmp/test.pdf"}' http://localhost:5000/thumbnail
 ```
+
+### Thumbnail requests
+
+```shell
+{
+  "file": "path to your file to convert",
+  "thumbnail" : {
+    "width": "width of the resulting thumbnail",
+    "height": "height of the resulting thumbnail (default: 256)",
+    "page": "Page number of the page to thumbnail (default: -1)"
+  }
+}
+```
+
+### Text extraction requests
+
+```shell
+{
+  "file": "path to your file to convert",
+  "text" : {
+    "returnText": true,
+  }
+}
+```
+
+returns
+
+```shell
+{
+  "error": null,
+  "resultFile" null,
+  "text": "extracted text"
+}
+```

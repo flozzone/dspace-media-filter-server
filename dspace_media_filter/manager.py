@@ -45,4 +45,5 @@ class MediaFilterManager(ABC):
             return media_filter.filter(req)
         except:
             traceback.print_exc()
-            return MediaFilterResponse(error=f"An unexpected error occured {sys.exc_info()[0]}")
+            sys.stderr.flush()
+            return MediaFilterResponse(error=f"An unexpected error occured {sys.exc_info()}")

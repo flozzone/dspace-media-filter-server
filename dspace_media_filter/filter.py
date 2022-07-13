@@ -6,6 +6,7 @@ class MediaFilterRequest(object):
     def __init__(self, data):
         self.abs_file = data.get('file')
         self.return_text = data.get('returnText', False)
+        self.data = data
 
 
 class MediaFilterResponse(object):

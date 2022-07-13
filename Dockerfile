@@ -5,6 +5,7 @@ ARG TZ=Etc/UTC
 
 RUN apt-get update && apt-get install -y python3 python3-pip \
     exiftool poppler-utils libfile-mimeinfo-perl libimage-exiftool-perl ghostscript libsecret-1-0 zlib1g-dev libjpeg-dev imagemagick libmagic1 webp && \
+
     rm -rf /var/lib/apt/lists/*
 
 RUN mkdir /media-filter /tmp/media-filter-cache && \
@@ -25,8 +26,6 @@ COPY requirements.txt .
 RUN pip install -r requirements.txt
 
 COPY . .
-
-RUN ls -la /tmp
 
 VOLUME /tmp/media-filter-cache
 

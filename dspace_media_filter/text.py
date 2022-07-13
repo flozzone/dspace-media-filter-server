@@ -1,3 +1,4 @@
+import os.path
 import re
 import tempfile
 from abc import ABC, abstractmethod
@@ -5,6 +6,14 @@ from abc import ABC, abstractmethod
 from nltk import RegexpTokenizer
 
 from dspace_media_filter.filter import MediaFilter, MediaFilterRequest, MediaFilterResponse
+
+
+class TextFilterMediaRequest(MediaFilterRequest):
+    def __init__(self, data):
+        super().__init__(data)
+
+        text = data.get('text', dict())
+        self.return_text = text.get('returnText', False)
 
 
 class TextFilter(MediaFilter, ABC):
@@ -16,9 +25,11 @@ class TextFilter(MediaFilter, ABC):
 
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
 
+        text_req = TextFilterMediaRequest(req.data)
+
         text = self.clean_text(self.filter_text(req))
 
-        if req.return_text:
+        if text_req.return_text:
             return MediaFilterResponse(text=text)
 
         result_file = self.write_text_to_file(text)
