@@ -1,4 +1,5 @@
 import json
+import os
 from abc import ABC, abstractmethod
 
 
@@ -26,6 +27,9 @@ class MediaFilterResponse(object):
 class MediaFilter(ABC):
     def __init__(self, cache_dir=None):
         self.cache_dir = cache_dir
+
+        if not os.path.exists(self.cache_dir):
+            os.mkdir(self.cache_dir)
 
     @staticmethod
     @abstractmethod
