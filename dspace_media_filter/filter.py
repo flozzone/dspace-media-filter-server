@@ -1,3 +1,4 @@
+import importlib
 import json
 import os
 from abc import ABC, abstractmethod
@@ -28,12 +29,13 @@ class MediaFilter(ABC):
     def __init__(self, cache_dir=None):
         self.cache_dir = cache_dir
 
+        m = importlib.import_module(self.__module__)
+        self.module_name = m.__name__.split(".")[-1]
+
         os.makedirs(self.cache_dir, exist_ok=True)
 
-    @staticmethod
-    @abstractmethod
-    def filter_name():
-        raise NotImplementedError("MediaFilter doesn't specify any filter name")
+    def filter_name(self):
+        return self.module_name
 
     @abstractmethod
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:

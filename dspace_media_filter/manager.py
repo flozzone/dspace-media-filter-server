@@ -6,40 +6,44 @@ import traceback
 from abc import ABC
 import logging as log
 
-from dspace_media_filter.filter import MediaFilterResponse, MediaFilterRequest
+from dspace_media_filter.filter import MediaFilterResponse, MediaFilterRequest, MediaFilter
 
 
 class MediaFilterManager(ABC):
     def __init__(self, main_cache_dir: str = "/tmp/filter-media-cache", enabled_filters_csv: str = None):
         self.filters = {}
-        self.filter_modules = {}
+        self.filter_modules = []
         self.main_cache_dir = main_cache_dir
         self.enabled_filters = None
         if enabled_filters_csv:
             self.enabled_filters = enabled_filters_csv.split(",")
 
-        self.register_module("text_pdf", 'PDFFilter')
-        self.register_module("thumbnail", 'ThumbnailFilter')
-        self.register_module("text_pptx", 'PPTXTextFilter')
-        self.register_module("text_html", 'HTMLTextFilter')
-        self.register_module("text_docx", 'DOCXTextFilter')
+        self.register_module("text_pdf")
+        self.register_module("thumbnail")
+        self.register_module("text_pptx")
+        self.register_module("text_html")
+        self.register_module("text_docx")
 
         self.import_modules()
 
-    def register_module(self, filter_module_name: str, filter_class_name: str):
+    def register_module(self, filter_module_name: str):
         if self.enabled_filters and filter_module_name not in self.enabled_filters:
             log.info(f"Filter {filter_module_name} is disabled")
             return
 
         log.info(f"Enabling media-filter module {filter_module_name}")
-        self.filter_modules[filter_class_name] = filter_module_name
+        self.filter_modules.append(filter_module_name)
 
     def import_modules(self):
-        for filter_class, filter_module in self.filter_modules.items():
+        for filter_module in self.filter_modules:
             log.info(f"Importing {filter_module}")
-            media_filter_module = importlib.import_module(f"dspace_media_filter.{filter_module}")
-            media_filter = media_filter_module.FilterModule(cache_dir=os.path.join(self.main_cache_dir, filter_module))
+
+            media_filter = self.create_filter_from_module(filter_module)
             self.filters[filter_module] = media_filter
+
+    def create_filter_from_module(self, filter_module: str) -> MediaFilter:
+        media_filter_module = importlib.import_module(f"dspace_media_filter.{filter_module}")
+        return media_filter_module.FilterModule(cache_dir=os.path.join(self.main_cache_dir, filter_module))
 
     def get_media_filter(self, media_type, file_type):
         filter_name = media_type

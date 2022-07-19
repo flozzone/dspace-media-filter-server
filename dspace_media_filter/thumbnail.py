@@ -14,11 +14,6 @@ class ThumbnailFilterMediaRequest(MediaFilterRequest):
 
 
 class FilterModule(MediaFilter):
-
-    @staticmethod
-    def filter_name():
-        return "thumbnail"
-
     def __init__(self, cache_dir=None):
         super().__init__(cache_dir=cache_dir)
         self.manager = PreviewManager(cache_folder_path=self.cache_dir, create_folder=True)

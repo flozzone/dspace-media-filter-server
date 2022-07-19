@@ -5,10 +5,6 @@ from dspace_media_filter.text import TextFilter
 
 
 class FilterModule(TextFilter):
-    @staticmethod
-    def filter_name():
-        return "text_docx"
-
     def filter_text(self, req: MediaFilterRequest) -> str:
         doc = docx.Document(req.abs_file)
 

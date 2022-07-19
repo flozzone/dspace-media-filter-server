@@ -5,10 +5,6 @@ from dspace_media_filter.text import TextFilter
 
 
 class FilterModule(TextFilter):
-    @staticmethod
-    def filter_name():
-        return "text_pdf"
-
     def filter_text(self, req: MediaFilterRequest) -> str:
         # read PDF contents
         with open(req.abs_file, 'rb') as pdfFile:

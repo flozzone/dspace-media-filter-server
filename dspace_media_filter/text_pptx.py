@@ -7,10 +7,6 @@ from dspace_media_filter.text import TextFilter
 
 
 class FilterModule(TextFilter):
-    @staticmethod
-    def filter_name():
-        return "text_pptx"
-
     def filter(self, req: MediaFilterRequest) -> MediaFilterResponse:
         try:
             return super(FilterModule, self).filter(req)
