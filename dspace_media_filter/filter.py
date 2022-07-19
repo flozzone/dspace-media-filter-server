@@ -28,8 +28,7 @@ class MediaFilter(ABC):
     def __init__(self, cache_dir=None):
         self.cache_dir = cache_dir
 
-        if not os.path.exists(self.cache_dir):
-            os.mkdir(self.cache_dir)
+        os.makedirs(self.cache_dir, exist_ok=True)
 
     @staticmethod
     @abstractmethod
